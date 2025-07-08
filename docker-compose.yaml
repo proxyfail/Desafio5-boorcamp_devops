@@ -1,0 +1,28 @@
+version: '3.8' # Versión de la especificación de Docker Compose. La 3.8 es bastante actual.
+
+services:
+  app:
+    build: # Instrucciones para construir la imagen del servicio 'app'
+      context: . # El contexto de construcción es el directorio actual donde está Dockerfile
+      dockerfile: Dockerfile # El archivo Dockerfile a usar
+    ports:
+      - "3000:3000" # Mapea el puerto 3000 del host al puerto 3000 del contenedor
+    depends_on: # Indica que este servicio depende del servicio 'mongodb'
+      - mongodb
+    environment: # Variables de entorno para la aplicación NestJS
+      # Asegúrate de que esta URL coincida con la configuración de tu aplicación NestJS para conectar a MongoDB
+      MONGODB_URI: mongodb://mongodb:27017/nest_boilerplate # 'mongodb' es el nombre del servicio DB en docker-compose
+      PORT: 3000 # El puerto que NestJS escuchará internamente
+    volumes: # Monta el código fuente local dentro del contenedor para desarrollo
+      - .:/usr/src/app
+      - /usr/src/app/node_modules # Evita que los node_modules locales sobrescriban los del contenedor
+
+  mongodb:
+    image: mongo:6 # Utilizamos una imagen oficial de MongoDB versión 6
+    ports:
+      - "27017:27017" # Mapea el puerto 27017 del host al puerto 27017 del contenedor
+    volumes:
+      - mongodb_data:/data/db # Persistencia de datos para MongoDB
+
+volumes:
+  mongodb_data: # Define el volumen nombrado para la persistencia de datos de MongoDB
