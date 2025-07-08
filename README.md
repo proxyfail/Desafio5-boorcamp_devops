@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Desafío DevOps: NestJS con Docker y Docker Compose
 
 Este repositorio contiene la solución al desafío de levantar un entorno de desarrollo local para una aplicación NestJS junto con una base de datos MongoDB utilizando Docker y Docker Compose.
